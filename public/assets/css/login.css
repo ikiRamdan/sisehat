@@ -1,0 +1,100 @@
+/* Variabel Warna */
+:root {
+    --dark-green: #2d4739;
+    --teal-light: #6eb0b4;
+    --input-bg: rgba(0, 0, 0, 0.2);
+}
+
+body {
+    background-color: #3b5d4a; /* Warna background luar */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-wrapper {
+    height: 100vh;
+    padding: 20px;
+}
+
+.login-container {
+    background-color: var(--dark-green);
+    border-radius: 40px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 1000px;
+    min-height: 600px;
+    color: white;
+}
+
+/* Bagian Ilustrasi (Kiri) */
+.login-illustration {
+    background-color: white;
+    flex: 1.2;
+    position: relative;
+    border-radius: 0 150px 300px 0; /* Membuat lengkungan putih */
+    padding: 40px;
+}
+
+.logo-top-left {
+    position: absolute;
+    top: 30px;
+    left: 40px;
+}
+
+.main-img {
+    max-width: 80%;
+}
+
+/* Bagian Form (Kanan) */
+.login-form-section {
+    flex: 0.8;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.custom-input {
+    background-color: var(--input-bg) !important;
+    border: none !important;
+    border-radius: 20px !important;
+    padding: 12px 20px !important;
+    color: white !important;
+}
+
+.custom-input::placeholder {
+    color: #adb5bd;
+}
+
+.btn-teal {
+    background-color: var(--teal-light);
+    color: var(--dark-green);
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.btn-teal:hover {
+    background-color: #5da1a5;
+    color: white;
+}
+
+.text-teal {
+    color: var(--teal-light);
+}
+
+.contact-info {
+    font-size: 0.75rem;
+    text-align: right;
+    opacity: 0.8;
+}
+
+/* Responsif Mobile */
+@media (max-width: 768px) {
+    .login-container {
+        border-radius: 20px;
+    }
+    .login-form-section {
+        padding: 30px 20px;
+    }
+}

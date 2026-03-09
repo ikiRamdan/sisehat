@@ -1,0 +1,153 @@
+:root {
+    /* Palet Warna Healthy Modern */
+    --bg-color: #f4f9f6;          /* Abu-abu kehijauan sangat muda (Fresh) */
+    --primary-healthy: #10b981;   /* Emerald Green (Warna utama kesehatan) */
+    --primary-dark: #064e3b;      /* Hijau tua botol untuk teks/sidebar aktif */
+    --teal-main: #34d399;         /* Mint cerah */
+    --teal-soft: rgba(16, 185, 129, 0.1); /* Background hijau transparan */
+    --white: #ffffff;
+}
+
+body.bg-dashboard {
+    background-color: var(--bg-color);
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    color: #374151; /* Warna teks charcoal agar mata tidak lelah */
+}
+
+/* Sidebar Floating */
+.sidebar-floating {
+    width: 260px;
+    height: calc(100vh - 40px);
+    background: var(--white);
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 20px;
+    border: 1px solid rgba(16, 185, 129, 0.1); /* Border halus hijau */
+}
+
+/* Content Area Floating */
+.content-area {
+    flex: 1;
+    background: var(--white);
+    border-radius: 24px;
+    padding: 30px;
+    min-height: calc(100vh - 40px);
+    border: 1px solid rgba(16, 185, 129, 0.1);
+}
+
+/* Menu Item Styling */
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    margin-bottom: 8px;
+    text-decoration: none;
+    color: #6b7280;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.menu-item:hover {
+    background-color: var(--teal-soft);
+    color: var(--primary-healthy);
+}
+
+/* Tombol Aktif - Healthy Green */
+.menu-item.active {
+    background: linear-gradient(135deg, var(--primary-healthy), var(--primary-dark));
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.menu-item.logout:hover {
+    background-color: #fef2f2;
+    color: #ef4444;
+}
+
+/* Badge & Soft Colors */
+.bg-teal-soft {
+    background-color: var(--teal-soft);
+    color: var(--primary-healthy) !important;
+}
+
+/* Warna khusus untuk icon dashboard (Healthy Palette) */
+.bg-soft-primary { background: #e0f2fe; color: #0ea5e9; } /* Blue Medicine */
+.bg-soft-success { background: #dcfce7; color: #16a34a; } /* Natural Green */
+.bg-soft-warning { background: #fef3c7; color: #d97706; } /* Vitamin Orange */
+.bg-soft-danger  { background: #fee2e2; color: #dc2626; } /* Critical Red */
+
+.card-dashboard {
+    border: none;
+    border-radius: 20px;
+    background: var(--white);
+    transition: all 0.3s ease;
+    border: 1px solid #f0fdf4; /* Subtle healthy border */
+}
+
+.card-dashboard:hover {
+    box-shadow: 0 12px 24px rgba(0,0,0,0.04) !important;
+    border-color: var(--teal-main);
+}
+
+.icon-box {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+}
+
+.table-custom thead th {
+    background: #f9fafb;
+    border-top: none;
+    color: #4b5563;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    padding: 1.25rem 1rem;
+    border-bottom: 2px solid var(--bg-color);
+}
+
+.table-custom td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+/* Input form admin - Clean & Fresh */
+.custom-input-admin {
+    background-color: #ffffff !important;
+    border: 1.5px solid #e5e7eb !important;
+    border-radius: 12px !important;
+    padding: 12px 16px !important;
+    transition: all 0.2s ease;
+}
+
+.custom-input-admin:focus {
+    border-color: var(--primary-healthy) !important;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1) !important;
+    outline: none;
+}
+
+/* Button Custom - Healthy Emerald */
+.btn-primary-custom {
+    background: linear-gradient(135deg, var(--primary-healthy), var(--teal-main)) !important;
+    color: white !important;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 24px;
+    font-weight: 600;
+    transition: 0.3s ease;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+}
+
+.btn-primary-custom:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(16, 185, 129, 0.3);
+}
