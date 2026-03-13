@@ -21,7 +21,6 @@
     <thead>
         <tr>
             <th>Nama Kategori</th>
-            <th>Deskripsi</th>
             <th width="180">Aksi</th>
         </tr>
     </thead>
@@ -29,7 +28,6 @@
         <?php foreach ($kategori as $k): ?>
         <tr>
             <td><?= esc($k['nama_kategori']) ?></td>
-            <td><?= esc($k['deskripsi']) ?></td>
             <td>
                 <a href="/admin/kategori/edit/<?= $k['id'] ?>" class="btn btn-sm btn-warning">
                     ✏️ Edit

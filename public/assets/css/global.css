@@ -1,0 +1,131 @@
+/* ================================
+   GLOBAL UI STYLE - SiSehat
+   Dipakai Admin, Kasir, Owner
+================================ */
+
+/* Card Section (container isi halaman) */
+.page-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 24px;
+    border: 1px solid #f0fdf4;
+}
+
+/* =================================
+   BUTTON
+================================= */
+
+.btn-primary {
+    background: linear-gradient(135deg, #10b981, #34d399);
+    border: none;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+.btn-primary:hover {
+    filter: brightness(1.1);
+}
+
+.btn-warning {
+    border-radius: 8px;
+}
+
+.btn-danger {
+    border-radius: 8px;
+}
+
+.btn-secondary {
+    border-radius: 8px;
+}
+
+/* =================================
+   TABLE STYLE GLOBAL
+================================= */
+
+.table {
+    border-radius: 14px;
+    overflow: hidden;
+    font-size: 14px;
+}
+
+.table thead th {
+    background: #f9fafb;
+    border-bottom: 2px solid #e5e7eb;
+    color: #4b5563;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+}
+
+.table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* =================================
+   BADGE STATUS
+================================= */
+
+.badge-success-soft {
+    background: #dcfce7;
+    color: #16a34a;
+    padding: 6px 10px;
+    border-radius: 20px;
+}
+
+.badge-danger-soft {
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 6px 10px;
+    border-radius: 20px;
+}
+
+/* =================================
+   FORM STYLE
+================================= */
+
+.form-control {
+    border-radius: 10px;
+    border: 1.5px solid #e5e7eb;
+}
+
+.form-control:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 0 4px rgba(16,185,129,0.08);
+}
+
+/* =================================
+   IMAGE TABLE
+================================= */
+
+.table-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+}
+
+/* =================================
+   HEADER PAGE
+================================= */
+
+.page-title {
+    font-weight: 700;
+    color: #374151;
+}
+
+/* =================================
+   SEARCH AREA
+================================= */
+
+.search-box {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 16px;
+    border: 1px solid #f3f4f6;
+    margin-bottom: 20px;
+}

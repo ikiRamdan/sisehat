@@ -13,6 +13,8 @@ class Produk extends BaseController
 
     public function __construct()
     {
+        helper('log'); // aktifkan helper log
+
         $this->produkModel   = new ProdukModel();
         $this->kategoriModel = new KategoriModel();
     }
@@ -61,27 +63,32 @@ class Produk extends BaseController
             'foto'         => 'permit_empty|is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png,image/webp]|max_size[foto,2048]',
         ];
 
-        if (! $this->validate($rules)) {
+        if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         $fileFoto = $this->request->getFile('foto');
         $namaFoto = null;
 
-        if ($fileFoto && $fileFoto->isValid() && ! $fileFoto->hasMoved()) {
+        if ($fileFoto && $fileFoto->isValid() && !$fileFoto->hasMoved()) {
             $namaFoto = $fileFoto->getRandomName();
             $fileFoto->move(WRITEPATH . '../public/uploads/produk', $namaFoto);
         }
 
-        $this->produkModel->save([
-            'nama_produk'         => $this->request->getPost('nama_produk'),
-            'harga_produk'        => $this->request->getPost('harga_produk'),
-            'stok'                => $this->request->getPost('stok'),
-            'satuan'              => $this->request->getPost('satuan'),
-            'tanggal_kadaluarsa'  => $this->request->getPost('tanggal_kadaluarsa'),
-            'id_kategori'         => $this->request->getPost('id_kategori'),
-            'foto'                => $namaFoto,
-        ]);
+        $data = [
+            'nama_produk'        => $this->request->getPost('nama_produk'),
+            'harga_produk'       => $this->request->getPost('harga_produk'),
+            'stok'               => $this->request->getPost('stok'),
+            'deskripsi'          => $this->request->getPost('deskripsi'),
+            'tanggal_kadaluarsa' => $this->request->getPost('tanggal_kadaluarsa'),
+            'id_kategori'        => $this->request->getPost('id_kategori'),
+            'foto'               => $namaFoto,
+        ];
+
+        $this->produkModel->save($data);
+
+        // log aktivitas
+        save_log("Admin menambahkan produk: " . $data['nama_produk']);
 
         return redirect()->to('/admin/produk')->with('success', 'Produk berhasil ditambahkan');
     }
@@ -100,12 +107,11 @@ class Produk extends BaseController
         $rules = [
             'nama_produk'  => 'required|min_length[3]',
             'harga_produk' => 'required|decimal|greater_than_equal_to[0]',
-            'stok'         => 'required|is_natural',
             'id_kategori'  => 'required|is_natural_no_zero',
             'foto'         => 'permit_empty|is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png,image/webp]|max_size[foto,2048]',
         ];
 
-        if (! $this->validate($rules)) {
+        if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
@@ -114,8 +120,8 @@ class Produk extends BaseController
         $fileFoto = $this->request->getFile('foto');
         $namaFoto = $produkLama['foto'] ?? null;
 
-        if ($fileFoto && $fileFoto->isValid() && ! $fileFoto->hasMoved()) {
-            // hapus foto lama
+        if ($fileFoto && $fileFoto->isValid() && !$fileFoto->hasMoved()) {
+
             if (!empty($produkLama['foto'])) {
                 $pathLama = WRITEPATH . '../public/uploads/produk/' . $produkLama['foto'];
                 if (is_file($pathLama)) {
@@ -123,20 +129,23 @@ class Produk extends BaseController
                 }
             }
 
-            // simpan foto baru
             $namaFoto = $fileFoto->getRandomName();
             $fileFoto->move(WRITEPATH . '../public/uploads/produk', $namaFoto);
         }
 
-        $this->produkModel->update($id, [
-            'nama_produk'         => $this->request->getPost('nama_produk'),
-            'harga_produk'        => $this->request->getPost('harga_produk'),
-            'stok'                => $this->request->getPost('stok'),
-            'satuan'              => $this->request->getPost('satuan'),
-            'tanggal_kadaluarsa'  => $this->request->getPost('tanggal_kadaluarsa'),
-            'id_kategori'         => $this->request->getPost('id_kategori'),
-            'foto'                => $namaFoto,
-        ]);
+        $data = [
+            'nama_produk'        => $this->request->getPost('nama_produk'),
+            'harga_produk'       => $this->request->getPost('harga_produk'),
+            'deskripsi'          => $this->request->getPost('deskripsi'),
+            'tanggal_kadaluarsa' => $this->request->getPost('tanggal_kadaluarsa'),
+            'id_kategori'        => $this->request->getPost('id_kategori'),
+            'foto'               => $namaFoto,
+        ];
+
+        $this->produkModel->update($id, $data);
+
+        // log aktivitas
+        save_log("Admin mengubah produk: " . $data['nama_produk']);
 
         return redirect()->to('/admin/produk')->with('success', 'Produk berhasil diupdate');
     }
@@ -153,6 +162,10 @@ class Produk extends BaseController
         }
 
         $this->produkModel->delete($id);
+
+        // log aktivitas
+        save_log("Admin menghapus produk: " . $produk['nama_produk']);
+
         return redirect()->back()->with('success', 'Produk & foto berhasil dihapus');
     }
 }

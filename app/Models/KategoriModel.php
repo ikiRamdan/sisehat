@@ -12,7 +12,6 @@ class KategoriModel extends Model
 
     protected $allowedFields    = [
         'nama_kategori',
-        'deskripsi',
     ];
 
     protected $useTimestamps    = true;

@@ -12,10 +12,6 @@
                value="<?= esc($kategori['nama_kategori']) ?>" required>
     </div>
 
-    <div class="mb-3">
-        <label>Deskripsi</label>
-        <textarea name="deskripsi" class="form-control" rows="3"><?= esc($kategori['deskripsi']) ?></textarea>
-    </div>
 
     <div class="d-flex gap-2">
         <button class="btn btn-primary">Update</button>

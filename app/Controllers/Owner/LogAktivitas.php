@@ -3,27 +3,28 @@
 namespace App\Controllers\Owner;
 
 use App\Controllers\BaseController;
-use App\Models\LogModel;
 
 class LogAktivitas extends BaseController
 {
     public function index()
     {
-        $role = $this->request->getGet('role');
-        $q    = $this->request->getGet('q');
+        $db = \Config\Database::connect();
 
-        $logModel = (new LogModel())->withUser();
+        $builder = $db->table('logs');
+        $builder->select('logs.*, users.nama, users.username, users.role');
+        $builder->join('users', 'users.id = logs.id_user');
 
-        if ($role) {
-            $logModel->where('users.role', $role);
+        if ($this->request->getGet('role')) {
+            $builder->where('users.role', $this->request->getGet('role'));
         }
 
-        if ($q) {
-            $logModel->like('activity', $q);
-        }
+        $builder->orderBy('logs.created_at', 'DESC');
 
-        $logs = $logModel->orderBy('logs.created_at', 'DESC')->findAll();
+        $logs = $builder->get()->getResultArray();
 
-        return view('owner/log/index', compact('logs', 'role', 'q'));
+        return view('owner/log/index', [
+            'title' => 'Log Aktivitas',
+            'logs'  => $logs
+        ]);
     }
 }

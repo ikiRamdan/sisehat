@@ -13,6 +13,7 @@ class Kategori extends BaseController
 
     public function __construct()
     {
+        helper('log');
         $this->kategoriModel = new KategoriModel();
         $this->produkModel  = new ProdukModel();
     }
@@ -31,10 +32,13 @@ class Kategori extends BaseController
 
     public function store()
     {
+        $nama = $this->request->getPost('nama_kategori');
+
         $this->kategoriModel->insert([
-            'nama_kategori' => $this->request->getPost('nama_kategori'),
-            'deskripsi'     => $this->request->getPost('deskripsi'),
+            'nama_kategori' => $nama,
         ]);
+
+        save_log("Admin menambahkan kategori: " . $nama);
 
         return redirect()->to('/admin/kategori')->with('success', 'Kategori berhasil ditambahkan');
     }
@@ -52,17 +56,22 @@ class Kategori extends BaseController
 
     public function update($id)
     {
+        $kategoriLama = $this->kategoriModel->find($id);
+        $namaBaru = $this->request->getPost('nama_kategori');
+
         $this->kategoriModel->update($id, [
-            'nama_kategori' => $this->request->getPost('nama_kategori'),
-            'deskripsi'     => $this->request->getPost('deskripsi'),
+            'nama_kategori' => $namaBaru,
         ]);
+
+        save_log("Admin mengubah kategori '{$kategoriLama['nama_kategori']}' menjadi '{$namaBaru}'");
 
         return redirect()->to('/admin/kategori')->with('success', 'Kategori berhasil diperbarui');
     }
 
     public function delete($id)
     {
-        // ✅ CEK RELASI KE PRODUK
+        $kategori = $this->kategoriModel->find($id);
+
         $produkPakaiKategori = $this->produkModel
             ->where('id_kategori', $id)
             ->countAllResults();
@@ -73,6 +82,8 @@ class Kategori extends BaseController
         }
 
         $this->kategoriModel->delete($id);
+
+        save_log("Admin menghapus kategori: " . $kategori['nama_kategori']);
 
         return redirect()->to('/admin/kategori')->with('success', 'Kategori berhasil dihapus');
     }

@@ -37,6 +37,7 @@
         <tr>
             <th style="width:80px">Foto</th>
             <th>Nama</th>
+            <th>Deskripsi</th>
             <th>Kategori</th>
             <th>Stok</th>
             <th>Harga</th>
@@ -57,6 +58,7 @@
                 <?php endif; ?>
             </td>
             <td><?= esc($p['nama_produk']) ?></td>
+            <td><?= esc($p['deskripsi']) ?></td>
             <td><?= esc($p['nama_kategori']) ?></td>
             <td>
                 <?php if ($p['stok'] < 10): ?>

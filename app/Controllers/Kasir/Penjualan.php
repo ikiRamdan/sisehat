@@ -9,6 +9,11 @@ use Dompdf\Dompdf;
 
 class Penjualan extends BaseController
 {
+    public function __construct()
+    {
+        helper('log');
+    }
+
     public function index()
     {
         $cart = session()->get('cart') ?? [];
@@ -65,6 +70,8 @@ class Penjualan extends BaseController
 
         session()->set('cart', $cart);
 
+        save_log("Kasir menambahkan produk ke keranjang: {$produk['nama_produk']} (qty: {$qty})");
+
         return redirect()->to('/kasir/penjualan')->with('success', 'Produk masuk keranjang');
     }
 
@@ -76,8 +83,13 @@ class Penjualan extends BaseController
         $cart = session()->get('cart') ?? [];
 
         if (isset($cart[$id])) {
+
+            $namaProduk = $cart[$id]['nama_produk'];
+
             unset($cart[$id]);
             session()->set('cart', $cart);
+
+            save_log("Kasir menghapus produk dari keranjang: {$namaProduk}");
         }
 
         return redirect()->to('/kasir/penjualan')->with('success', 'Item dihapus dari keranjang');
@@ -111,9 +123,9 @@ class Penjualan extends BaseController
             'id_user'        => session('id_user'),
             'nama_pelanggan' => $this->request->getPost('nama_pelanggan'),
             'nomor_unik'     => 'TRX-' . date('YmdHis'),
-            'total_harga'   => $total,
-            'uang_bayar'    => $uangBayar,
-            'uang_kembali'  => $uangBayar - $total,
+            'total_harga'    => $total,
+            'uang_bayar'     => $uangBayar,
+            'uang_kembali'   => $uangBayar - $total,
         ]);
 
         foreach ($cart as $item) {
@@ -125,7 +137,6 @@ class Penjualan extends BaseController
                 'subtotal'     => $item['subtotal'],
             ]);
 
-            // Proteksi stok
             $produkModel->reduceStock($item['id_produk'], $item['qty']);
         }
 
@@ -137,12 +148,14 @@ class Penjualan extends BaseController
 
         session()->remove('cart');
 
+        save_log("Kasir menyelesaikan transaksi {$transaksiId} dengan total Rp {$total}");
+
         return redirect()->to('/kasir/penjualan/struk/' . $transaksiId)
             ->with('success', 'Transaksi berhasil');
     }
 
     // =========================
-    // RIWAYAT TRANSAKSI KASIR
+    // RIWAYAT TRANSAKSI
     // =========================
     public function riwayat()
     {
@@ -151,7 +164,7 @@ class Penjualan extends BaseController
         $data['riwayat'] = $db->table('transactions t')
             ->select('t.*, u.nama')
             ->join('users u', 'u.id = t.id_user')
-            ->where('t.id_user', session('id_user')) // kasir hanya lihat miliknya
+            ->where('t.id_user', session('id_user'))
             ->orderBy('t.id', 'DESC')
             ->get()
             ->getResultArray();
@@ -159,9 +172,6 @@ class Penjualan extends BaseController
         return view('kasir/penjualan/riwayat', $data);
     }
 
-    // =========================
-    // STRUK HTML
-    // =========================
     public function struk($id)
     {
         $db = db_connect();
@@ -182,9 +192,6 @@ class Penjualan extends BaseController
         return view('kasir/penjualan/struk', compact('transaksi', 'detail'));
     }
 
-    // =========================
-    // STRUK PDF
-    // =========================
     public function strukPdf($id)
     {
         $db = db_connect();

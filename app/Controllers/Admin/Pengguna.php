@@ -11,6 +11,7 @@ class Pengguna extends BaseController
 
     public function __construct()
     {
+        helper('log');
         $this->userModel = new UserModel();
     }
 
@@ -25,18 +26,22 @@ class Pengguna extends BaseController
         return view('admin/pengguna/create');
     }
 
-   public function store()
-{
-    $this->userModel->insert([
-        'username'  => $this->request->getPost('username'),
-        'password'  => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-        'nama'      => $this->request->getPost('nama'),
-        'role'      => $this->request->getPost('role'),
-        'is_active' => $this->request->getPost('is_active'),
-    ]);
+    public function store()
+    {
+        $username = $this->request->getPost('username');
 
-    return redirect()->to('/admin/pengguna')->with('success', 'User berhasil ditambahkan');
-}
+        $this->userModel->insert([
+            'username'  => $username,
+            'password'  => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+            'nama'      => $this->request->getPost('nama'),
+            'role'      => $this->request->getPost('role'),
+            'is_active' => $this->request->getPost('is_active'),
+        ]);
+
+        save_log("Admin menambahkan user baru: " . $username);
+
+        return redirect()->to('/admin/pengguna')->with('success', 'User berhasil ditambahkan');
+    }
 
     public function edit($id)
     {
@@ -50,26 +55,35 @@ class Pengguna extends BaseController
     }
 
     public function update($id)
-{
-    $data = [
-        'username'  => $this->request->getPost('username'),
-        'nama'      => $this->request->getPost('nama'),
-        'role'      => $this->request->getPost('role'),
-        'is_active' => $this->request->getPost('is_active'),
-    ];
+    {
+        $userLama = $this->userModel->find($id);
 
-    if ($this->request->getPost('password')) {
-        $data['password'] = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
+        $data = [
+            'username'  => $this->request->getPost('username'),
+            'nama'      => $this->request->getPost('nama'),
+            'role'      => $this->request->getPost('role'),
+            'is_active' => $this->request->getPost('is_active'),
+        ];
+
+        if ($this->request->getPost('password')) {
+            $data['password'] = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
+        }
+
+        $this->userModel->update($id, $data);
+
+        save_log("Admin mengubah data user: " . $userLama['username']);
+
+        return redirect()->to('/admin/pengguna')->with('success', 'User berhasil diupdate');
     }
-
-    $this->userModel->update($id, $data);
-
-    return redirect()->to('/admin/pengguna')->with('success', 'User berhasil diupdate');
-}
 
     public function delete($id)
     {
+        $user = $this->userModel->find($id);
+
         $this->userModel->delete($id);
+
+        save_log("Admin menghapus user: " . $user['username']);
+
         return redirect()->to('/admin/pengguna')->with('success', 'User berhasil dihapus');
     }
 
@@ -81,9 +95,15 @@ class Pengguna extends BaseController
             return redirect()->to('/admin/pengguna')->with('error', 'User tidak ditemukan');
         }
 
+        $status = $user['is_active'] ? 0 : 1;
+
         $this->userModel->update($id, [
-            'is_active' => $user['is_active'] ? 0 : 1
+            'is_active' => $status
         ]);
+
+        $textStatus = $status ? "mengaktifkan" : "menonaktifkan";
+
+        save_log("Admin {$textStatus} user: " . $user['username']);
 
         return redirect()->to('/admin/pengguna')->with('success', 'Status user diperbarui');
     }

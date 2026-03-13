@@ -10,15 +10,15 @@ class ProdukModel extends Model
     protected $primaryKey       = 'id';
     protected $returnType       = 'array';
 
-    protected $allowedFields    = [
-        'id_kategori',
-        'nama_produk',
-        'harga_produk',
-        'stok',
-        'satuan',
-        'tanggal_kadaluarsa',
-        'foto',
-    ];
+protected $allowedFields = [
+    'id_kategori',
+    'nama_produk',
+    'harga_produk',
+    'stok',
+    'deskripsi',
+    'tanggal_kadaluarsa',
+    'foto',
+];
 
     protected $useTimestamps    = true;
     protected $createdField     = 'created_at';

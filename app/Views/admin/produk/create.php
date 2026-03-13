@@ -16,7 +16,9 @@
 
     <input type="number" name="harga_produk" class="form-control mb-2" placeholder="Harga" required>
     <input type="number" name="stok" class="form-control mb-2" placeholder="Stok" required>
-    <input type="text" name="satuan" class="form-control mb-2" placeholder="Satuan">
+
+    <textarea name="deskripsi" class="form-control mb-2" placeholder="Deskripsi Produk"></textarea>
+
     <input type="date" name="tanggal_kadaluarsa" class="form-control mb-2">
 
     <div class="mb-3">

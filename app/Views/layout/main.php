@@ -5,6 +5,7 @@
     <title><?= $title ?? 'Dashboard' ?> | SiSehat</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= base_url('assets/css/sidebar.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/global.css') ?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body class="bg-dashboard">
@@ -43,13 +44,21 @@
                     <a href="/kasir/penjualan/riwayat" class="menu-item <?= (url_is('/kasir/penjualan/riwayat*')) ? 'active' : '' ?>">
                         <i class="bi bi-clock-history me-2"></i> Riwayat</a>
 
-                <?php elseif (session('role') === 'owner'): ?>
-                    <a href="/owner/laporan" class="menu-item <?= (url_is('/owner/laporan*')) ? 'active' : '' ?>">
-                        <i class="bi bi-file-earmark-bar-graph me-2"></i> Laporan</a>
-                    <a href="/owner/log" class="menu-item <?= (url_is('/owner/log*')) ? 'active' : '' ?>">
-                        <i class="bi bi-journal-text me-2"></i> Log Aktivitas</a>
-                <?php endif; ?>
-            </div>
+<?php elseif (session('role') === 'owner'): ?>
+
+    <a href="/owner/produk" class="menu-item <?= (url_is('/owner/produk*')) ? 'active' : '' ?>">
+        <i class="bi bi-box-seam me-2"></i> Produk
+    </a>
+
+    <a href="/owner/laporan" class="menu-item <?= (url_is('/owner/laporan*')) ? 'active' : '' ?>">
+        <i class="bi bi-file-earmark-bar-graph me-2"></i> Laporan
+    </a>
+
+    <a href="/owner/log" class="menu-item <?= (url_is('/owner/log*')) ? 'active' : '' ?>">
+        <i class="bi bi-journal-text me-2"></i> Log Aktivitas
+    </a>
+
+<?php endif; ?>
 
             <div class="sidebar-footer px-3 mt-auto mb-4">
                 <hr class="text-muted">

@@ -17,18 +17,20 @@
     </select>
 
     <input type="number" name="harga_produk" value="<?= esc($produk['harga_produk']) ?>" class="form-control mb-2" required>
-    <input type="number" name="stok" value="<?= esc($produk['stok']) ?>" class="form-control mb-2" required>
-    <input type="text" name="satuan" value="<?= esc($produk['satuan']) ?>" class="form-control mb-2">
+
+    <textarea name="deskripsi" class="form-control mb-2"><?= esc($produk['deskripsi']) ?></textarea>
+
     <input type="date" name="tanggal_kadaluarsa" value="<?= esc($produk['tanggal_kadaluarsa']) ?>" class="form-control mb-2">
 
     <div class="mb-3">
         <label class="form-label">Foto Produk</label><br>
+
         <?php if (!empty($produk['foto'])): ?>
-            <img src="/uploads/produk/<?= esc($produk['foto']) ?>" 
-                 width="120" class="rounded border mb-2">
+            <img src="/uploads/produk/<?= esc($produk['foto']) ?>" width="120" class="rounded border mb-2">
         <?php else: ?>
             <div class="text-muted mb-2">Belum ada foto</div>
         <?php endif; ?>
+
         <input type="file" name="foto" class="form-control" accept="image/*">
         <small class="text-muted">Kosongkan jika tidak ingin mengganti foto</small>
     </div>

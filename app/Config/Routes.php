@@ -89,4 +89,6 @@ $routes->group('owner', ['filter' => 'role:owner'], function($routes){
 
     // Log aktivitas
     $routes->get('log', 'Owner\LogAktivitas::index');
+
+   $routes->get('produk', 'Owner\Produk::index');
 });
